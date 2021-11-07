@@ -1,0 +1,10 @@
+Syntax to create unique id
+    const newId = uuidv4()
+
+There are some methods defined on shortid modules to create unique ids and customize the ids. some of the methods are illustrates below:
+    uuid.parse() 	Convert UUID string to array of bytes
+    uuid.v4()	Create a version 4 (random) UUID
+
+
+For  getting room members
+    https://newbedev.com/getting-how-many-people-are-in-a-chat-room-in-socket-io
