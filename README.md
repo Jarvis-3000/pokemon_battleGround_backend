@@ -12,5 +12,5 @@
       Open http://localhost:5000 to view it in the browser.
       You can use Postman to play with it.
 
-## It will connect to the socket server API
-## And then just play with the frontend game and have fun.
+# It will connect to the socket server API
+# And then just play with the frontend game and have fun.
