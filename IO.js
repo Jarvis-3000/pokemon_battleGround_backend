@@ -2,6 +2,8 @@ const SocketStart = require("./socketEvents/socketStart");
 const SocketJoin = require("./socketEvents/socketJoin");
 const SocketStartGame = require("./socketEvents/socketStartGame");
 const SocketDisconnect = require("./socketEvents/socketDisconnect");
+const SocketSendCurrentPokemon = require("./socketEvents/socketSendCurrPokemon");
+const SocketMatchResult=require("./socketEvents/socketMatchResult")
 const socketIO = require("socket.io");
 
 function IO(server) {
@@ -27,6 +29,12 @@ function IO(server) {
 
     //handlind disconnect event on socket
     SocketDisconnect({ socket, io });
+
+    //handling send current pokemon to each other
+    SocketSendCurrentPokemon({ socket, io });
+
+    //handling send current pokemon to each other
+    SocketMatchResult({ socket, io });
   });
 }
 

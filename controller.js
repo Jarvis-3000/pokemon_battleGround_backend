@@ -54,4 +54,17 @@ const AddSocket = async ({ groupId, socketId }) => {
   }
 };
 
+// const GetPlayers=()=>{
+//   try{
+
+
+
+//   }
+//   catch(){
+
+//   }
+// }
+
+
+
 module.exports = { SocketRegister, AddSocket, CreateGroup };

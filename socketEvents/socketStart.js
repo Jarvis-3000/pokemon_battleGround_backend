@@ -5,6 +5,7 @@ function SocketStart({ socket }) {
   //in the starting will generate unique groupId
   socket.once("start", () => {
     //random unique id
+    console.log("starting...")
     const id = uuidv4();
     SocketRegister({ socketId: socket.id });
     CreateGroup({groupId:id})

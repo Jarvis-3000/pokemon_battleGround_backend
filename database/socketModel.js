@@ -11,27 +11,24 @@ const socketSchema = mongoose.Schema(
       required: true,
       default:"user"
     },
-    groups: [
+    groupId: {
+      type: String,
+      required: true,
+    },
+    pokemons: [
       {
-        groupId: {
-          type: String,
-          required: true,
-        },
-        pokemons: [
-          {
-            name: {
-              type: String,
-              required: true,
-            },
-          },
-        ],
-        opponent: {
-          type: String,
-          required:true,
-          default:"Opponent"
+      name: {
+        type: String,
+        required: true,
         },
       },
     ],
+    opponent: {
+      type: String,
+      required:true,
+      default:"Opponent",
+      ref:"Socket"
+    }
   },
   {
     timestamps: true,

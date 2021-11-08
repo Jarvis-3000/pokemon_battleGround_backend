@@ -25,7 +25,7 @@ function SocketJoin({ socket, io }) {
     let room = io.sockets.adapter.rooms;
     let roomById = room.get(id);
     let roomSize = roomById.size;
-    console.log("roomSize", roomSize);
+    console.log("roomSize", roomSize,roomById);
 
     //if 2 are already there then i should leave
     if (roomSize > 2) {

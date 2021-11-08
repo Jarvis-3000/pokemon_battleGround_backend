@@ -12,6 +12,7 @@ const server = http.createServer(app);
 
 // connect Database
 connectDB();
+
 // connect Socket API
 IO(server);
 
