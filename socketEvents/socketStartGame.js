@@ -3,7 +3,13 @@ const { validate: uuidValidate } = require("uuid");
 //
 const GetRandomPokArray = require("../randomArray/randomArray");
 
-function getPlayers(io, groupId) {
+function getPlayers(socket,io, groupId) {
+  //
+  if (!uuidValidate(groupId)) {
+    socket.emit("error", { msg: "Group Id not Valid" });
+    return;
+  }
+  //
   let room = io.sockets.adapter.rooms;
   let roomById = room.get(groupId);
   let players = Array.from(roomById.values());
@@ -22,7 +28,10 @@ function SocketStartGame({ socket, io }) {
     console.log("starting game", groupId);
     //
     const randomArr = GetRandomPokArray();
-    let players = getPlayers(io, groupId);
+    let players = getPlayers(socket,io, groupId);
+    if (!players) {
+      return;
+    }
     //verifying existence of both player
     if (players.length != 2) {
       socket.emit("warning", "Let other player join!!!");

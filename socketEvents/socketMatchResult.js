@@ -13,13 +13,18 @@ function socketMatchResult({ socket, io }) {
     console.log("match start event", groupId, details);
     let players = getPlayers({ io, groupId });
     if (players[0] == socket.id) {
-      io.to(players[1]).emit("getPokemonDetails", details);
+      io.to(players[1]).emit("getPokemonDetails", {details,id:socket.id});
       console.log("sending pokemon to opponent", players[1]);
     } else {
-      io.to(players[0]).emit("getPokemonDetails", details);
+      io.to(players[0]).emit("getPokemonDetails", { details, id: socket.id });
       console.log("sending pokemon to opponent", players[0]);
     }
   });
+
+  // socket.on("lemmeChoose", (id) => {
+  //   console.error("lemme choose", id);
+  //   io.to(id).emit("error", { msg: "Let other player choose Pokemon" });
+  // });
 
   socket.on("matchResult", ({ details, groupId }) => {
     console.log("got the final details", details, groupId);
@@ -66,6 +71,5 @@ function getMatchResult({ details, io, socket, groupId }) {
     console.log("won", player2);
   }
 }
-
 
 module.exports = socketMatchResult;
