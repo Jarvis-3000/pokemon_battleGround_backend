@@ -21,10 +21,10 @@ function socketMatchResult({ socket, io }) {
     }
   });
 
-  // socket.on("lemmeChoose", (id) => {
-  //   console.error("lemme choose", id);
-  //   io.to(id).emit("error", { msg: "Let other player choose Pokemon" });
-  // });
+  socket.on("lemmeChoose", (id) => {
+    console.error("lemme choose", id);
+    io.to(id).emit("error", { msg: "Let other player choose Pokemon" });
+  });
 
   socket.on("matchResult", ({ details, groupId }) => {
     console.log("got the final details", details, groupId);
