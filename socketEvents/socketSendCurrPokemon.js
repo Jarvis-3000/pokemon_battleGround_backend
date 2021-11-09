@@ -1,3 +1,5 @@
+const { validate: uuidValidate } = require("uuid");
+
 function getPlayers(io, groupId) {
   let room = io.sockets.adapter.rooms;
   let roomById = room.get(groupId);
@@ -8,6 +10,12 @@ function getPlayers(io, groupId) {
 
 function socketSendCurrentPokemon({ socket, io }) {
   socket.on("sendCurrentPokemon", ({ pokemon, groupId }) => {
+    //
+    if (!uuidValidate(groupId)) {
+      socket.emit("error", { msg: "Group Id not Valid" });
+      return;
+    }
+    //
     let players = getPlayers(io, groupId);
     if (players[0] == socket.id) {
       io.to(players[1]).emit("sendCurrentPokemon", pokemon);

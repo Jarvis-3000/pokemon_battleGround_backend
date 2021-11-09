@@ -1,3 +1,32 @@
+const { validate: uuidValidate } = require("uuid");
+//
+//
+
+function socketMatchResult({ socket, io }) {
+  socket.on("matchStart", ({ groupId, details }) => {
+    //
+    if (!uuidValidate(groupId)) {
+      socket.emit("error", { msg: "Group Id not Valid" });
+      return;
+    }
+    //
+    console.log("match start event", groupId, details);
+    let players = getPlayers({ io, groupId });
+    if (players[0] == socket.id) {
+      io.to(players[1]).emit("getPokemonDetails", details);
+      console.log("sending pokemon to opponent", players[1]);
+    } else {
+      io.to(players[0]).emit("getPokemonDetails", details);
+      console.log("sending pokemon to opponent", players[0]);
+    }
+  });
+
+  socket.on("matchResult", ({ details, groupId }) => {
+    console.log("got the final details", details, groupId);
+    getMatchResult({ details, io, socket, groupId });
+  });
+}
+
 function getPlayers({ io, groupId }) {
   console.log("get players", groupId);
   let room = io.sockets.adapter.rooms;
@@ -26,34 +55,17 @@ function getMatchResult({ details, io, socket, groupId }) {
 
   if (pokemon1.height * pokemon2.weight >= pokemon2.height * pokemon2.weight) {
     //socket.id won
-    io.to(player1).emit("matchResult", "You Won!!!");
-    io.to(player2).emit("matchResult", "You Lost");
+    console.log("sending resultttttt");
+    io.to(player1).emit("matchResult", { win: true, msg: "You Won" });
+    io.to(player2).emit("matchResult", { win: false, msg: "You Lost" });
     console.log("won", player1);
   } else {
-    io.to(player2).emit("matchResult", "You Won!!!");
-    io.to(player1).emit("matchResult", "You Lost");
+    io.to(player2).emit("matchResult", { win: true, msg: "You Won" });
+    io.to(player1).emit("matchResult", { win: false, msg: "You Lost" });
 
     console.log("won", player2);
   }
 }
 
-function socketMatchResult({ socket, io }) {
-  socket.on("matchStart", ({ groupId, details }) => {
-    console.log("match start event", groupId, details);
-    let players = getPlayers({ io, groupId });
-    if (players[0] == socket.id) {
-      io.to(players[1]).emit("getPokemonDetails", details);
-      console.log("sending pokemon to opponent", players[1]);
-    } else {
-      io.to(players[0]).emit("getPokemonDetails", details);
-      console.log("sending pokemon to opponent", players[0]);
-    }
-  });
-
-  socket.on("matchResult", ({ details, groupId }) => {
-    console.log("got the final details", details, groupId);
-    getMatchResult({ details, io, socket, groupId });
-  });
-}
 
 module.exports = socketMatchResult;
