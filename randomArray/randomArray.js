@@ -11,7 +11,6 @@ const randomGenerator = (i) => {
   ) {
     random = Math.floor(Math.random() * 649) + 1;
   }
-  console.log(random);
 
   if (i % 2 == 0) {
     player1.push(random);
