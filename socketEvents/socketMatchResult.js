@@ -14,26 +14,21 @@ function socketMatchResult({ socket, io }) {
     let players = getPlayers({ io, groupId });
     if (players[0] == socket.id) {
       io.to(players[1]).emit("getPokemonDetails", {details,id:socket.id});
-      console.log("sending pokemon to opponent", players[1]);
     } else {
       io.to(players[0]).emit("getPokemonDetails", { details, id: socket.id });
-      console.log("sending pokemon to opponent", players[0]);
     }
   });
 
   socket.on("lemmeChoose", (id) => {
-    console.error("lemme choose", id);
     io.to(id).emit("error", { msg: "Let other player choose Pokemon" });
   });
 
   socket.on("matchResult", ({ details, groupId }) => {
-    console.log("got the final details", details, groupId);
     getMatchResult({ details, io, socket, groupId });
   });
 }
 
 function getPlayers({ io, groupId }) {
-  console.log("get players", groupId);
   let room = io.sockets.adapter.rooms;
   let roomById = room.get(groupId);
   let players = Array.from(roomById.values());
@@ -48,7 +43,6 @@ function getMatchResult({ details, io, socket, groupId }) {
   let player1 = "";
   let player2 = "";
 
-  console.log("players result", players);
 
   if (players[0] == socket.id) {
     player1 = players[0];
@@ -60,15 +54,11 @@ function getMatchResult({ details, io, socket, groupId }) {
 
   if (pokemon1.height * pokemon2.weight >= pokemon2.height * pokemon2.weight) {
     //socket.id won
-    console.log("sending resultttttt");
     io.to(player1).emit("matchResult", { win: true, msg: "You Won" });
     io.to(player2).emit("matchResult", { win: false, msg: "You Lost" });
-    console.log("won", player1);
   } else {
     io.to(player2).emit("matchResult", { win: true, msg: "You Won" });
     io.to(player1).emit("matchResult", { win: false, msg: "You Lost" });
-
-    console.log("won", player2);
   }
 }
 
