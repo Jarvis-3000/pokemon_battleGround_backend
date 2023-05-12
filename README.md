@@ -14,3 +14,5 @@
 
 # It will connect to the socket server API
 # And then just play with the frontend game and have fun.
+
+Hosted on # [Railway](https://railway.app/dashboard)
