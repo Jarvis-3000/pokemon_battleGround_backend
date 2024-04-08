@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 
 app.get("/",(req,res)=>{
-    res.send("hello")
+    res.send("Hello Guys! This is a Node.js based server that is using Socket.io API to create a real-time communication between the players playing Pokemon BattleGround game and sharing game data in between.")
 })
 
 // connect Socket API
